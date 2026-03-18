@@ -4,165 +4,193 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>VOLVVD Engineering AI Consultant</title>
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
     <style>
-        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body, #n8n-chat {
+            width: 100%;
+            height: 100%;
+        }
+
         :root {
-            /* Colors */
-            --chat--color-primary: #4A7FB9;      /* Volvvd Signature Blue */
-            --chat--color-secondary: #1A1A1A;    /* Deep Black for text/headers */
-            --chat--color-background: #F4F4F4;   /* Light Grey technical background */
+            --chat--color-primary: #4A7FB9;
+            --chat--color-secondary: #1A1A1A;
+            --chat--color-background: #F4F4F4;
             --chat--color-white: #FFFFFF;
-            
-            /* Message Bubbles */
             --chat--bubble-user-bg: var(--chat--color-secondary);
             --chat--bubble-user-text: var(--chat--color-white);
             --chat--bubble-agent-bg: var(--chat--color-white);
             --chat--bubble-agent-text: var(--chat--color-secondary);
-            
-            /* Borders & Radius */
             --chat--border-width: 1px;
             --chat--border-color: #D1D1D1;
-            --chat--radius: 2px; /* Sharp technical corners, not rounded */
-            
-            /* Typography */
+            --chat--radius: 2px;
             --chat--font-family: 'Inter', -apple-system, sans-serif;
             --chat--header-font-weight: 800;
-            }
+        }
 
-            /* Base Container Styling */
-            .n8n-chat-container {
-            background-color: var(--chat--color-background);
-            font-family: var(--chat--font-family);
-            }
+        .n8n-chat-container { background-color: var(--chat--color-background); font-family: var(--chat--font-family); }
+        .n8n-chat-agent-message { border: var(--chat--border-width) solid var(--chat--border-color) !important; border-left: 4px solid var(--chat--color-primary) !important; box-shadow: 2px 2px 0px rgba(0,0,0,0.05); border-radius: var(--chat--radius) !important; }
+        .n8n-chat-user-message { background-color: var(--chat--color-secondary) !important; color: var(--chat--color-white) !important; border-radius: var(--chat--radius) !important; font-weight: 500; }
+        .n8n-chat-header { background-color: var(--chat--color-white); border-bottom: 2px solid var(--chat--color-secondary); text-transform: uppercase; letter-spacing: 1px; }
+        .n8n-chat-header-title { color: var(--chat--color-secondary); font-weight: var(--chat--header-font-weight); }
+        .n8n-chat-input { border: 1px solid var(--chat--color-secondary) !important; border-radius: var(--chat--radius) !important; }
+        .n8n-chat-send-button { background-color: var(--chat--color-primary) !important; transition: background-color 0.2s ease; }
+        .n8n-chat-send-button:hover { background-color: #355f8c !important; }
+        .n8n-chat-messages-list { padding: 20px !important; gap: 15px !important; }
+        .n8n-chat-agent-message { background: #ffffff !important; border: 1px solid #000 !important; padding: 15px !important; font-size: 14px; line-height: 1.6; }
+        .n8n-chat-agent-message::before { content: "DIAGNOSTIC DATA"; font-size: 9px; font-weight: 900; color: var(--chat--color-primary); display: block; margin-bottom: 5px; letter-spacing: 1px; }
+        .n8n-chat-input-container { padding: 15px !important; background: #fff !important; border-top: 2px solid var(--chat--color-secondary) !important; }
 
-            /* Agent Message Styling - Technical White Paper Style */
-            .n8n-chat-agent-message {
-            border: var(--chat--border-width) solid var(--chat--border-color) !important;
-            border-left: 4px solid var(--chat--color-primary) !important; /* Blue accent bar */
-            box-shadow: 2px 2px 0px rgba(0,0,0,0.05);
-            border-radius: var(--chat--radius) !important;
-            }
+        /* ── Quick Reply Buttons ── */
+        #quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 12px 15px;
+            background: #fff;
+            border-top: 1px solid #D1D1D1;
+            /* Sits inside the chat window — injected by JS below */
+        }
 
-            /* User Message Styling - Solid Black Header Style */
-            .n8n-chat-user-message {
-            background-color: var(--chat--color-secondary) !important;
-            color: var(--chat--color-white) !important;
-            border-radius: var(--chat--radius) !important;
-            font-weight: 500;
-            }
-
-            /* Chat Header - Bold Branding */
-            .n8n-chat-header {
-            background-color: var(--chat--color-white);
-            border-bottom: 2px solid var(--chat--color-secondary);
+        .qr-btn {
+            background: #fff;
+            color: #1A1A1A;
+            border: 1px solid #1A1A1A;
+            border-radius: 0;
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-size: 11px;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            }
+            letter-spacing: 0.5px;
+            padding: 7px 12px;
+            cursor: pointer;
+            transition: background 0.15s, color 0.15s, border-color 0.15s;
+            white-space: nowrap;
+        }
 
-            .n8n-chat-header-title {
-            color: var(--chat--color-secondary);
-            font-weight: var(--chat--header-font-weight);
-            }
+        .qr-btn:hover {
+            background: #4A7FB9;
+            color: #fff;
+            border-color: #4A7FB9;
+        }
 
-            /* Input Field - Blueprint Style */
-            .n8n-chat-input {
-            border: 1px solid var(--chat--color-secondary) !important;
-            border-radius: var(--chat--radius) !important;
-            }
-
-            .n8n-chat-send-button {
-            background-color: var(--chat--color-primary) !important;
-            transition: background-color 0.2s ease;
-            }
-
-            .n8n-chat-send-button:hover {
-            background-color: #355f8c !important;
-            }
-            /* 1. Make the message area feel like a workspace */
-            .n8n-chat-messages-list {
-            padding: 20px !important;
-            gap: 15px !important;
-            }
-
-            /* 2. Style the Agent bubbles to look like 'Technical Cards' */
-            .n8n-chat-agent-message {
-            background: #ffffff !important;
-            border: 1px solid #000 !important; /* Stark engineering line */
-            padding: 15px !important;
-            font-size: 14px;
-            line-height: 1.6;
-            }
-
-            /* 3. Add a 'Status Indicator' to Agent messages */
-            .n8n-chat-agent-message::before {
-            content: "DIAGNOSTIC DATA";
-            font-size: 9px;
-            font-weight: 900;
-            color: var(--chat--color-primary);
-            display: block;
-            margin-bottom: 5px;
-            letter-spacing: 1px;
-            }
-
-            /* 4. Improve the Input area UX */
-            .n8n-chat-input-container {
-            padding: 15px !important;
-            background: #fff !important;
-            border-top: 2px solid var(--chat--color-secondary) !important;
-            }
-            /* Style for Quick Reply Buttons */
-            .n8n-chat-quick-reply-button {
-              background-color: var(--chat--color-white) !important;
-              color: var(--chat--color-secondary) !important;
-              border: 1px solid var(--chat--color-secondary) !important;
-              border-radius: 0px !important; /* Sharp corners for CAD feel */
-              font-family: var(--chat--font-family);
-              font-weight: 600;
-              text-transform: uppercase;
-              font-size: 11px;
-              letter-spacing: 0.5px;
-              padding: 8px 12px !important;
-              transition: all 0.2s ease;
-            }
-            
-            .n8n-chat-quick-reply-button:hover {
-              background-color: var(--chat--color-primary) !important;
-              color: white !important;
-              border-color: var(--chat--color-primary) !important;
-            }
+        /* Hide the buttons after first interaction */
+        #quick-replies.hidden {
+            display: none;
+        }
     </style>
-    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
 </head>
 <body>
 
-    <div id="n8n-chat"></div>
+<div id="n8n-chat"></div>
 
-    <script type="module">
-        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+<script type="module">
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
-        createChat({
-            webhookUrl: 'https://takashiide.app.n8n.cloud/webhook/c2b4299a-3737-49f2-9aa2-06793d0e632a/chat', //YOUR_N8N_PRODUCTION_WEBHOOK_URL
-            webhookConfig: {
-                method: 'POST'
+    createChat({
+        webhookUrl: 'https://takashiide.app.n8n.cloud/webhook/c2b4299a-3737-49f2-9aa2-06793d0e632a/chat',
+        webhookConfig: { method: 'POST' },
+        showWelcomeScreen: true,
+        target: '#n8n-chat',
+        defaultLanguage: 'en',
+        i18n: {
+            en: {
+                title: '🤖 Agent Volvvd 💬',
+                subtitle: 'The Volvvd AI Agent',
+                footer: '',
+                getStarted: 'New Conversation',
+                inputPlaceholder: 'Type your message...',
             },
-            showWelcomeScreen: true,
-            title: 'Volvvd Engineering',
-            subtitle: 'Digital Design & Analysis Consultant',
-            initialMessages: [
-                'Welcome to Volvvd Engineering. 🛠️\nI optimize workflows for Digital Design & Prototyping. How can I help you today?',
-                'Selamat datang di Volvvd Engineering. 🛠️\nSaya membantu optimasi workflow untuk Digital Design & Prototyping. Ada yang bisa saya bantu?'
-            ],
-            // These are the buttons that appear at the bottom
-            quickReplies: [
-                "Yes, let's start diagnosis.",
-                "What is Volvvd?",
-                "View services.",
-                "Ya, mulai diagnosa.",
-                "Apa itu Volvvd?",
-                "Lihat layanan."
-            ],
-            allowImages: false
+        },
+        initialMessages: [
+            'Welcome to Volvvd Engineering. 🛠️\nI optimize workflows for Digital Design & Prototyping. How can I help you today?',
+            'Selamat datang di Volvvd Engineering. 🛠️\nSaya membantu optimasi workflow untuk Digital Design & Prototyping. Ada yang bisa saya bantu?'
+        ],
+        allowImages: false,
+    });
+
+    // ── Quick Replies (injected manually) ──────────────────────────────────────
+    const QUICK_REPLIES = [
+        "Yes, let's start diagnosis.",
+        "What is Volvvd?",
+        "View services.",
+        "Ya, mulai diagnosa.",
+        "Apa itu Volvvd?",
+        "Lihat layanan."
+    ];
+
+    // Wait for the chat widget DOM to be ready, then inject buttons
+    function injectQuickReplies() {
+        // The n8n widget renders an input container — we place our buttons just above it
+        const inputContainer = document.querySelector('.chat-input') 
+            || document.querySelector('[class*="chat-input"]')
+            || document.querySelector('.n8n-chat-input-container');
+
+        if (!inputContainer) {
+            // Widget not rendered yet — retry
+            setTimeout(injectQuickReplies, 300);
+            return;
+        }
+
+        // Avoid double-injection
+        if (document.getElementById('quick-replies')) return;
+
+        const bar = document.createElement('div');
+        bar.id = 'quick-replies';
+
+        QUICK_REPLIES.forEach(label => {
+            const btn = document.createElement('button');
+            btn.className = 'qr-btn';
+            btn.textContent = label;
+            btn.addEventListener('click', () => sendQuickReply(label));
+            bar.appendChild(btn);
         });
-    </script>
+
+        // Insert above the input field
+        inputContainer.parentNode.insertBefore(bar, inputContainer);
+    }
+
+    function sendQuickReply(text) {
+        // 1. Find the textarea/input inside the widget
+        const input = document.querySelector('textarea[placeholder], input[placeholder]');
+        if (!input) return;
+
+        // 2. Set the value using React's synthetic event system (needed for Vue/React inputs)
+        const nativeInputValueSetter = Object.getOwnPropertyDescriptor(
+            window.HTMLTextAreaElement.prototype, 'value'
+        )?.set || Object.getOwnPropertyDescriptor(
+            window.HTMLInputElement.prototype, 'value'
+        )?.set;
+
+        if (nativeInputValueSetter) {
+            nativeInputValueSetter.call(input, text);
+        } else {
+            input.value = text;
+        }
+
+        // 3. Trigger input event so the widget's JS picks up the value
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+
+        // 4. Small delay, then click the send button
+        setTimeout(() => {
+            const sendBtn = document.querySelector('button[type="submit"], .chat-send-button, [class*="send"]');
+            if (sendBtn) {
+                sendBtn.click();
+            } else {
+                // Fallback: dispatch Enter key
+                input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+            }
+
+            // Hide the quick reply bar after first use
+            const bar = document.getElementById('quick-replies');
+            if (bar) bar.classList.add('hidden');
+        }, 80);
+    }
+
+    // Start watching for the widget to mount
+    setTimeout(injectQuickReplies, 800);
+</script>
+
 </body>
 </html>
