@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOLVVD Engineering AI Consultant</title>
+    <style>
+        /* Paste the :root and CSS I provided in the previous turn here */
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div id="n8n-chat"></div>
+
+    <script type="module">
+        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+
+        createChat({
+            webhookUrl: 'https://takashiide.app.n8n.cloud/webhook/c2b4299a-3737-49f2-9aa2-06793d0e632a/chat', //YOUR_N8N_PRODUCTION_WEBHOOK_URL
+            webhookConfig: {
+                method: 'POST'
+            },
+            showWelcomeScreen: true,
+            title: 'VOLVVD Engineering',
+            subtitle: 'Digital Design & Analysis Consultant',
+            initialMessages: [
+                'Hello! I’m your VOLVVD Engineering Consultant. May we begin with a few targeted questions?'
+            ],
+            allowImages: false
+        });
+    </script>
+</body>
+</html>
