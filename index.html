@@ -6,6 +6,110 @@
     <title>VOLVVD Engineering AI Consultant</title>
     <style>
         /* Paste the :root and CSS I provided in the previous turn here */
+        :root {
+            /* Colors */
+            --chat--color-primary: #4A7FB9;      /* Volvvd Signature Blue */
+            --chat--color-secondary: #1A1A1A;    /* Deep Black for text/headers */
+            --chat--color-background: #F4F4F4;   /* Light Grey technical background */
+            --chat--color-white: #FFFFFF;
+            
+            /* Message Bubbles */
+            --chat--bubble-user-bg: var(--chat--color-secondary);
+            --chat--bubble-user-text: var(--chat--color-white);
+            --chat--bubble-agent-bg: var(--chat--color-white);
+            --chat--bubble-agent-text: var(--chat--color-secondary);
+            
+            /* Borders & Radius */
+            --chat--border-width: 1px;
+            --chat--border-color: #D1D1D1;
+            --chat--radius: 2px; /* Sharp technical corners, not rounded */
+            
+            /* Typography */
+            --chat--font-family: 'Inter', -apple-system, sans-serif;
+            --chat--header-font-weight: 800;
+            }
+
+            /* Base Container Styling */
+            .n8n-chat-container {
+            background-color: var(--chat--color-background);
+            font-family: var(--chat--font-family);
+            }
+
+            /* Agent Message Styling - Technical White Paper Style */
+            .n8n-chat-agent-message {
+            border: var(--chat--border-width) solid var(--chat--border-color) !important;
+            border-left: 4px solid var(--chat--color-primary) !important; /* Blue accent bar */
+            box-shadow: 2px 2px 0px rgba(0,0,0,0.05);
+            border-radius: var(--chat--radius) !important;
+            }
+
+            /* User Message Styling - Solid Black Header Style */
+            .n8n-chat-user-message {
+            background-color: var(--chat--color-secondary) !important;
+            color: var(--chat--color-white) !important;
+            border-radius: var(--chat--radius) !important;
+            font-weight: 500;
+            }
+
+            /* Chat Header - Bold Branding */
+            .n8n-chat-header {
+            background-color: var(--chat--color-white);
+            border-bottom: 2px solid var(--chat--color-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            }
+
+            .n8n-chat-header-title {
+            color: var(--chat--color-secondary);
+            font-weight: var(--chat--header-font-weight);
+            }
+
+            /* Input Field - Blueprint Style */
+            .n8n-chat-input {
+            border: 1px solid var(--chat--color-secondary) !important;
+            border-radius: var(--chat--radius) !important;
+            }
+
+            .n8n-chat-send-button {
+            background-color: var(--chat--color-primary) !important;
+            transition: background-color 0.2s ease;
+            }
+
+            .n8n-chat-send-button:hover {
+            background-color: #355f8c !important;
+            }
+            /* 1. Make the message area feel like a workspace */
+            .n8n-chat-messages-list {
+            padding: 20px !important;
+            gap: 15px !important;
+            }
+
+            /* 2. Style the Agent bubbles to look like 'Technical Cards' */
+            .n8n-chat-agent-message {
+            background: #ffffff !important;
+            border: 1px solid #000 !important; /* Stark engineering line */
+            padding: 15px !important;
+            font-size: 14px;
+            line-height: 1.6;
+            }
+
+            /* 3. Add a 'Status Indicator' to Agent messages */
+            .n8n-chat-agent-message::before {
+            content: "DIAGNOSTIC DATA";
+            font-size: 9px;
+            font-weight: 900;
+            color: var(--chat--color-primary);
+            display: block;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+            }
+
+            /* 4. Improve the Input area UX */
+            .n8n-chat-input-container {
+            padding: 15px !important;
+            background: #fff !important;
+            border-top: 2px solid var(--chat--color-secondary) !important;
+            }
     </style>
     <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
 </head>
