@@ -8,9 +8,33 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        html, body, #n8n-chat {
+        html, body {
             width: 100%;
             height: 100%;
+            overflow: hidden;
+        }
+
+        /* Force the chat to fill the entire viewport */
+        #n8n-chat,
+        #n8n-chat .chat-wrapper,
+        #n8n-chat [class*="chat-wrapper"],
+        #n8n-chat [class*="n8n-chat"] {
+            width: 100% !important;
+            height: 100vh !important;
+            max-width: 100% !important;
+            max-height: 100% !important;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+        }
+
+        /* Hide the floating toggle button (the chat bubble icon) */
+        #n8n-chat [class*="chat-toggle"],
+        #n8n-chat [class*="toggle-button"],
+        #n8n-chat button[class*="toggle"] {
+            display: none !important;
         }
 
         :root {
@@ -91,6 +115,7 @@
     createChat({
         webhookUrl: 'https://takashiide.app.n8n.cloud/webhook/c2b4299a-3737-49f2-9aa2-06793d0e632a/chat',
         webhookConfig: { method: 'POST' },
+        mode: 'fullscreen',
         showWelcomeScreen: true,
         target: '#n8n-chat',
         defaultLanguage: 'en',
