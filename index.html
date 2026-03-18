@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>VOLVVD Engineering AI Consultant</title>
     <style>
-        /* Paste the :root and CSS I provided in the previous turn here */
+        
         :root {
             /* Colors */
             --chat--color-primary: #4A7FB9;      /* Volvvd Signature Blue */
@@ -110,6 +110,26 @@
             background: #fff !important;
             border-top: 2px solid var(--chat--color-secondary) !important;
             }
+            /* Style for Quick Reply Buttons */
+            .n8n-chat-quick-reply-button {
+              background-color: var(--chat--color-white) !important;
+              color: var(--chat--color-secondary) !important;
+              border: 1px solid var(--chat--color-secondary) !important;
+              border-radius: 0px !important; /* Sharp corners for CAD feel */
+              font-family: var(--chat--font-family);
+              font-weight: 600;
+              text-transform: uppercase;
+              font-size: 11px;
+              letter-spacing: 0.5px;
+              padding: 8px 12px !important;
+              transition: all 0.2s ease;
+            }
+            
+            .n8n-chat-quick-reply-button:hover {
+              background-color: var(--chat--color-primary) !important;
+              color: white !important;
+              border-color: var(--chat--color-primary) !important;
+            }
     </style>
     <link href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css" rel="stylesheet" />
 </head>
@@ -129,7 +149,17 @@
             title: 'Volvvd Engineering',
             subtitle: 'Digital Design & Analysis Consultant',
             initialMessages: [
-                'Hello! 👋 /n I’m your AI engineering consultant. I specialize in optimizing workflows for Digital Design, Analysis, and Prototyping./n/n  I’d love to learn more about what you’re working on so we can tackle any bottlenecks together. Is it alright if I ask a few questions to understand your situation better? /n (You can use any language you are comfortable with.)'
+                'Welcome to Volvvd Engineering. 🛠️\nI optimize workflows for Digital Design & Prototyping. How can I help you today?',
+                'Selamat datang di Volvvd Engineering. 🛠️\nSaya membantu optimasi workflow untuk Digital Design & Prototyping. Ada yang bisa saya bantu?'
+            ],
+            // These are the buttons that appear at the bottom
+            quickReplies: [
+                "Yes, let's start diagnosis.",
+                "What is Volvvd?",
+                "View services.",
+                "Ya, mulai diagnosa.",
+                "Apa itu Volvvd?",
+                "Lihat layanan."
             ],
             allowImages: false
         });
